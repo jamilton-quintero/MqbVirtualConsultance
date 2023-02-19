@@ -1,0 +1,8 @@
+[user]
+	name = JamiltonQuintero
+	email = transportador1118@gmail.com
+[difftool "sourcetree"]
+	cmd = "'' "
+[mergetool "sourcetree"]
+	cmd = "'' "
+	trustExitCode = true

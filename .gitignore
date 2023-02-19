@@ -1,0 +1,57 @@
+analisis/.settings/org.eclipse.buildship.core.prefs
+analisis/bin
+analisis/build
+analisis/logs
+analisis/.gradle/
+analisis/.idea
+
+# Compiled class file
+*.class
+
+# Log file
+*.log
+
+# Package Files
+*.war
+*.ear
+
+# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
+hs_err_pid*
+
+# Target
+**/target
+**/logs
+
+# Orig Files
+*.orig
+
+# compiled output
+/dist
+/tmp
+/out-tsc
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# System Files
+.DS_Store
+Thumbs.db
+
+analisis/build/
+
+analisis/bin/test/.gitignore
+
+analisis/analisisbin/main/.gitignore
+analisis/bin/main/.gitignore
+analisis/bin/test/.gitignore
+analisis/bin/main/.gitignore
+analisis/analisisbin/
+analisis/bin/
+analisis/bin/
+analisis/.temp-analisis*.txt

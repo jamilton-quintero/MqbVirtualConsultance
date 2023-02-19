@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: analisis
+  name: analisis
+  namespace: mqb-virtual-consultance-prb
+spec:
+  replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: analisis
+  template:
+    metadata:
+      labels:
+        app: analisis
+    spec:     
+      containers:
+      - name : analisis
+        image: acrmqbtest.azurecr.io/mqbconsultiveanalisisprb:latest
+        imagePullPolicy: Always
+        resources:
+          limits:
+            memory: "512Mi"
+          requests:
+            memory: "256Mi"       
+        ports:
+        - containerPort: 8095
+          protocol: TCP 
+        - containerPort: 21
+          protocol: TCP              
+      imagePullSecrets:
+        - name: acrmqbtest  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: analisis-load
+  namespace: mqb-virtual-consultance-prb
+  labels:
+    app: analisis
+spec:
+  type: LoadBalancer
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8095
+  selector:
+    app: analisis
