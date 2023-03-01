@@ -1,4 +1,4 @@
-package com.example.analisis.polly.awspolly;
+package com.example.analisis.service.imlp;
 
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -12,20 +12,29 @@ import com.amazonaws.services.polly.model.SynthesizeSpeechResult;
 import com.amazonaws.services.polly.model.VoiceId;
 import com.example.analisis.util.GlobalConstants;
 import com.example.analisis.polly.exceptions.AwsException;
+import com.example.analisis.service.AudioGeneratorService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
 import java.io.InputStream;
 
 @Service
-public class PollyAudioService {
+public class GenerateAudioSuggestionImpl implements AudioGeneratorService {
 
-    public InputStream ejecute(String messageToAudio) {
+    private final String accessKey;
+    private final String secretKey;
+
+    public GenerateAudioSuggestionImpl(@Value("${aws.polly.access-key}") String accessKey,
+                                  @Value("${aws.polly.secret-key}")String secretKey) {
+        this.accessKey = accessKey;
+        this.secretKey = secretKey;
+    }
+    public InputStream generateAudioSuggestion(String messageToAudio) {
 
         InputStream audioStream;
 
         try {
 
-            BasicAWSCredentials awsCreds = new BasicAWSCredentials("awsCredentials.getAccessKey()", "awsCredentials.getSecretKey()");
+            BasicAWSCredentials awsCreds = new BasicAWSCredentials(this.accessKey , this.secretKey);
 
             AmazonPolly client = AmazonPollyClientBuilder.standard()
                     .withCredentials(new AWSStaticCredentialsProvider(awsCreds))
@@ -43,6 +52,7 @@ public class PollyAudioService {
             SynthesizeSpeechResult synthRes = client.synthesizeSpeech(synthReq);
 
             audioStream = synthRes.getAudioStream();
+
             System.out.printf(GlobalConstants.LA_COMUNICACION_CON_AWS_FUE_EXITOSA);
         } catch (Exception e) {
             System.out.printf(GlobalConstants.SE_PRODUJO_UN_ERROR_EN_LA_COMUNICACION_CON_AWS, e);
@@ -53,12 +63,10 @@ public class PollyAudioService {
     }
 
     private static VoiceId typeVoiceBaseOnSizeMessage(String messageToAudio) {
-        //return messageToAudio.length() <= GlobalConstants.LIMIT_NEURAL_VOICE ? VoiceId.Mia : VoiceId.Penelope;
-        return VoiceId.Mia;
+        return messageToAudio.length() <= GlobalConstants.LIMIT_NEURAL_VOICE ? VoiceId.Mia : VoiceId.Penelope;
     }
 
     private static Engine typeEngineBaseOnSizeMessage(String messageToAudio) {
-        //return messageToAudio.length() <= GlobalConstants.LIMIT_NEURAL_VOICE ? Engine.Neural : Engine.Standard;
-        return Engine.Neural;
+        return messageToAudio.length() <= GlobalConstants.LIMIT_NEURAL_VOICE ? Engine.Neural : Engine.Standard;
     }
 }

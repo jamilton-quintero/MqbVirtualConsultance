@@ -22,7 +22,7 @@ spec:
     spec:     
       containers:
       - name : analisis
-        image: acrmqbtest.azurecr.io/mqbconsultiveanalisisprb:latest
+        image: acrmvirtualconsultive.azurecr.io/mqbconsultiveanalisisprb:latest
         imagePullPolicy: Always
         resources:
           limits:
@@ -30,12 +30,9 @@ spec:
           requests:
             memory: "256Mi"       
         ports:
-        - containerPort: 8095
-          protocol: TCP
-        - containerPort: 21
-          protocol: TCP           
+        - containerPort: 8095         
       imagePullSecrets:
-        - name: acrmqbtest  
+        - name: acrmvirtualconsultive  
 ---
 apiVersion: v1
 kind: Service
@@ -60,46 +57,23 @@ metadata:
   name: analisis-ingress
   namespace: mqb-virtual-consultance-prb
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/use-regex: "true"
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-prod 
     nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
 spec:
-  ingressClassName: nginx
+  tls:
+  - hosts:
+    - masquebellabackend.barberiaadn.xyz
+    secretName: test-tls
   rules:
-  - http:
-      paths:
-      - path: /virtual-consultive(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: analisis
-            port:
-              number: 8095
-      - path: /(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: analisis
-            port:
-              number: 8095
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: analisis-ingress-static
-  namespace: mqb-virtual-consultance-prb
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /static/$2
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /static(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: analisis
-            port: 
-              number: 8095
+    - host: masquebellabackend.barberiaadn.xyz
+      http:
+        paths:
+        - path: /virtual-consultive(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: analisis
+              port:
+                number: 8095

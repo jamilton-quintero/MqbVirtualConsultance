@@ -2,7 +2,7 @@ package com.example.analisis.util;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-import com.example.analisis.entidad.User;
+import com.example.analisis.domain.entity.User;
 import com.example.analisis.to.UserCompleteReportTO;
 import com.example.analisis.to.UserGetTO;
 import com.example.analisis.to.UserPostTO;

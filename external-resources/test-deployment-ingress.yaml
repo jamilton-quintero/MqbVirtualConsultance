@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: analisis-ingress
-  namespace: mqb-virtual-consultance-prb
   annotations:
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/use-regex: "true"
@@ -11,39 +10,11 @@ spec:
   ingressClassName: nginx
   rules:
   - http:
-      paths:
-      - path: /virtual-consultive(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: aks-analisis-ingress
-            port:
-              number: 80
-      - path: /(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: analisis-ingress
-            port:
-              number: 80
----
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: analisis-ingress-static
-  namespace: mqb-virtual-consultance-prb
-  annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
-    nginx.ingress.kubernetes.io/rewrite-target: /static/$2
-spec:
-  ingressClassName: nginx
-  rules:
-  - http:
-      paths:
-      - path: /static(/|$)(.*)
-        pathType: Prefix
-        backend:
-          service:
-            name: aks-analisis-ingress
-            port: 
-              number: 80
+        paths:
+        - path: /virtual-consultive(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: analisis
+              port:
+                number: 8095
