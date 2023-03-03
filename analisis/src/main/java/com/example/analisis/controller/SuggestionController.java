@@ -1,8 +1,10 @@
 package com.example.analisis.controller;
 
 
-import com.example.analisis.domain.entity.SuggestionClientRequestDto;
-import com.example.analisis.domain.entity.SuggestionClientResponseDto;
+import com.example.analisis.domain.entity.dto.SuggestionClientRequestDto;
+import com.example.analisis.domain.entity.dto.SuggestionClientRequestTestDto;
+import com.example.analisis.domain.entity.dto.SuggestionClientResponseDto;
+import com.example.analisis.service.LuxeneProductService;
 import com.example.analisis.service.ProductSuggestion;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -10,17 +12,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/suggestions")
 public class SuggestionController {
 
 	private final ProductSuggestion productSuggestion;
-	public SuggestionController(ProductSuggestion productSuggestion) {
+	private final LuxeneProductService luxeneProductService;
+	public SuggestionController(ProductSuggestion productSuggestion, LuxeneProductService luxeneProductService) {
 
 		this.productSuggestion = productSuggestion;
+		this.luxeneProductService = luxeneProductService;
 	}
 
+	@PostMapping("/products-suggestion-test")
+	public List<Integer> getProductSuggestionTestAndSuggestion(@RequestBody SuggestionClientRequestTestDto request) {
+		return luxeneProductService.searchBestProductsAcordingToSuggestion(request.getProblem(),request.getSuggestion());
+	}
+	
 	@PostMapping("/products")
 	public SuggestionClientResponseDto getProductIdsAndSuggestion(@RequestBody SuggestionClientRequestDto request) {
 		return productSuggestion.getBestProductIdsAndSuggestion(request);

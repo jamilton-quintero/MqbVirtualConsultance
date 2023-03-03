@@ -1,6 +1,6 @@
 package com.example.analisis.service.imlp;
 
-import com.example.analisis.domain.entity.DtoProduct;
+import com.example.analisis.domain.entity.dto.ProductDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,17 +26,17 @@ class LuxeneProductServiceImplTest {
     void testSearchBest() {
         String problem = "";
 
-        List<DtoProduct> products = new ArrayList<>();
-        DtoProduct product = new DtoProduct(123,"","", 100F);
+        List<ProductDto> products = new ArrayList<>();
+        ProductDto product = new ProductDto(123,"","", 100F);
         products.add(product);
 
-        Mockito.when(productSearcher.relevantProducts(Mockito.anyString())).thenReturn(products);
+        Mockito.when(productSearcher.relevantProducts(Mockito.anyString(),Mockito.anyString())).thenReturn(products);
 
-        List<Integer> actualSearchBestResult = luxeneProductService.searchBestProductsAcordingToSuggestion(problem);
+        List<Integer> actualSearchBestResult = luxeneProductService.searchBestProductsAcordingToSuggestion(problem, problem);
 
         Assertions.assertEquals(1, actualSearchBestResult.size());
         Assertions.assertEquals(123, actualSearchBestResult.get(0));
-        Mockito.verify(productSearcher).relevantProducts(Mockito.anyString());
+        Mockito.verify(productSearcher).relevantProducts(Mockito.anyString(),Mockito.anyString());
 
     }
 }

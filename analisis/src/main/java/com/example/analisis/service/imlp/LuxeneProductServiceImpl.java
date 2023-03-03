@@ -1,9 +1,12 @@
 package com.example.analisis.service.imlp;
 
-import com.example.analisis.domain.entity.DtoProduct;
+import com.example.analisis.domain.entity.dto.ProductDto;
 import com.example.analisis.service.LuxeneProductService;
 
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.example.analisis.service.ProductSearcher;
@@ -17,18 +20,23 @@ public class LuxeneProductServiceImpl implements LuxeneProductService {
 
 	private final ProductSearcher productSearcher;
 
+
 	public LuxeneProductServiceImpl(ProductSearcher productSearcher) {
 		this.productSearcher = productSearcher;
 	}
 
 	@Override
-	public List<Integer> searchBestProductsAcordingToSuggestion(String problem) {
+	public List<Integer> searchBestProductsAcordingToSuggestion(String problem, String suggestion) {
 
 		problem = cleanTextOfSpecialCharacters(problem);
 
-		return productSearcher.relevantProducts(problem)
+		String[] words = suggestion.split("\\s+"); // Divide la cadena por espacios en blanco
+		Set<String> uniqueWords = new HashSet<>(Arrays.asList(words)); // Convierte el array de palabras en un conjunto para obtener las palabras únicas
+		String cleanedSuggestion = String.join(" ", uniqueWords);
+
+		return productSearcher.relevantProducts(problem, cleanedSuggestion)
 				.stream()
-				.map(DtoProduct::getId)
+				.map(ProductDto::getId)
 				.collect(Collectors.toList());
 	}
 

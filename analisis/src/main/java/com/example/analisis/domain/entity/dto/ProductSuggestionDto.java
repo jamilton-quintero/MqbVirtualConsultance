@@ -1,4 +1,4 @@
-package com.example.analisis.domain.entity;
+package com.example.analisis.domain.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,10 +10,10 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtoProductSuggestion {
+public class ProductSuggestionDto {
 
     private String board;
-    private List<DtoProduct> products;
+    private List<ProductDto> products;
     private String audioUrl;
     private byte[] voice;
 

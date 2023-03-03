@@ -1,4 +1,4 @@
-package com.example.analisis.domain.entity;
+package com.example.analisis.domain.entity.dto;
 
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;

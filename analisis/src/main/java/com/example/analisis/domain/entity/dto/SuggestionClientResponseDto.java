@@ -1,4 +1,4 @@
-package com.example.analisis.domain.entity;
+package com.example.analisis.domain.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

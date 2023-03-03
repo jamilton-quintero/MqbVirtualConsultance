@@ -1,11 +1,11 @@
 package com.example.analisis.service;
 
-import com.example.analisis.domain.entity.DtoProduct;
+import com.example.analisis.domain.entity.dto.ProductDto;
 
 import java.util.List;
 
 public interface ProductSearcher {
 
-    List<DtoProduct> relevantProducts(String queryString);
+    List<ProductDto> relevantProducts(String queryStringProblema, String queryStringSolucion) ;
 
 }

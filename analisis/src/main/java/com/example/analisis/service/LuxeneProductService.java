@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface LuxeneProductService {
 
-    List<Integer> searchBestProductsAcordingToSuggestion(String problem);
+    List<Integer> searchBestProductsAcordingToSuggestion(String problem, String suggestion);
 }

@@ -1,4 +1,4 @@
-package com.example.analisis.domain.entity;
+package com.example.analisis.domain.entity.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class DtoProduct {
+public class ProductDto {
 
     private Integer id;
     private String name;
