@@ -30,8 +30,8 @@ public class LuxeneProductServiceImpl implements LuxeneProductService {
 
 		problem = cleanTextOfSpecialCharacters(problem);
 
-		String[] words = suggestion.split("\\s+"); // Divide la cadena por espacios en blanco
-		Set<String> uniqueWords = new HashSet<>(Arrays.asList(words)); // Convierte el array de palabras en un conjunto para obtener las palabras únicas
+		String[] words = suggestion.split("\\s+");
+		Set<String> uniqueWords = new HashSet<>(Arrays.asList(words));
 		String cleanedSuggestion = String.join(" ", uniqueWords);
 
 		return productSearcher.relevantProducts(problem, cleanedSuggestion)

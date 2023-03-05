@@ -27,7 +27,7 @@ class LuxeneProductServiceImplTest {
         String problem = "";
 
         List<ProductDto> products = new ArrayList<>();
-        ProductDto product = new ProductDto(123,"","", 100F);
+        ProductDto product = new ProductDto(123,"","", 100F,"");
         products.add(product);
 
         Mockito.when(productSearcher.relevantProducts(Mockito.anyString(),Mockito.anyString())).thenReturn(products);

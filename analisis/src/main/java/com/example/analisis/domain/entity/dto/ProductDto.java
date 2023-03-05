@@ -13,6 +13,7 @@ public class ProductDto {
     private String name;
     private String description;
     private float score;
+    private String mainBrand;
 
 
 }
