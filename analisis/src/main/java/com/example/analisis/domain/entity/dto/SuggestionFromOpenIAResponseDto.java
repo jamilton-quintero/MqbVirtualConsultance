@@ -1,6 +1,5 @@
 package com.example.analisis.domain.entity.dto;
 
-import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,11 +7,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class SuggestionClientRequestTestDto {
+public class SuggestionFromOpenIAResponseDto {
 
-    @NotNull
-    private SuggestionFromOpenIAResponseDto suggestion;
-    @NotNull
-    private String problem;
+    private String clientSuggestionRoutine;
+    private String clientSuggestionComponents;
+    private String mainBrand;
 
 }

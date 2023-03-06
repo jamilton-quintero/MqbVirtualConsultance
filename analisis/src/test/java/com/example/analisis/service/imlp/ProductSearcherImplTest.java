@@ -4,6 +4,7 @@ import com.example.analisis.domain.entity.dto.ProductDto;
 
 import java.util.List;
 
+import com.example.analisis.domain.entity.dto.SuggestionFromOpenIAResponseDto;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
@@ -27,7 +28,7 @@ class ProductSearcherImplTest {
         String queryString = "";
 
         // Act
-        List<ProductDto> actualRelevantProductsResult = productSearcherImpl.relevantProducts(queryString, queryString);
+        List<ProductDto> actualRelevantProductsResult = productSearcherImpl.relevantProducts(queryString, new SuggestionFromOpenIAResponseDto());
 
         // Assert
         // TODO: Add assertions on result

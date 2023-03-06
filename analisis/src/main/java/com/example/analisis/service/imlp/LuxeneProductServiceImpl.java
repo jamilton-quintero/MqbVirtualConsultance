@@ -1,6 +1,7 @@
 package com.example.analisis.service.imlp;
 
 import com.example.analisis.domain.entity.dto.ProductDto;
+import com.example.analisis.domain.entity.dto.SuggestionFromOpenIAResponseDto;
 import com.example.analisis.service.LuxeneProductService;
 
 import java.util.Arrays;
@@ -26,15 +27,15 @@ public class LuxeneProductServiceImpl implements LuxeneProductService {
 	}
 
 	@Override
-	public List<Integer> searchBestProductsAcordingToSuggestion(String problem, String suggestion) {
+	public List<Integer> searchBestProductsAcordingToSuggestion(String problem, SuggestionFromOpenIAResponseDto suggestion) {
 
 		problem = cleanTextOfSpecialCharacters(problem);
 
-		String[] words = suggestion.split("\\s+");
+		/*String[] words = suggestion.split("\\s+");
 		Set<String> uniqueWords = new HashSet<>(Arrays.asList(words));
-		String cleanedSuggestion = String.join(" ", uniqueWords);
+		String cleanedSuggestion = String.join(" ", uniqueWords);*/
 
-		return productSearcher.relevantProducts(problem, cleanedSuggestion)
+		return productSearcher.relevantProducts(problem, suggestion)
 				.stream()
 				.map(ProductDto::getId)
 				.collect(Collectors.toList());
