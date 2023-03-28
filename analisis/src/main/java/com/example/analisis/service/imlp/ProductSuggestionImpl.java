@@ -1,8 +1,10 @@
 package com.example.analisis.service.imlp;
 
+import com.example.analisis.domain.entity.ClientProblem;
 import com.example.analisis.domain.entity.dto.SuggestionClientRequestDto;
 import com.example.analisis.domain.entity.dto.SuggestionClientResponseDto;
 import com.example.analisis.domain.entity.dto.SuggestionFromOpenIAResponseDto;
+import com.example.analisis.domain.repositories.ClientProblemRepository;
 import com.example.analisis.service.AudioGeneratorService;
 import com.example.analisis.service.AudioStorage;
 import com.example.analisis.service.LuxeneProductService;
@@ -24,17 +26,24 @@ public class ProductSuggestionImpl implements ProductSuggestion {
     private final AudioStorage audioStorage;
     private final AudioGeneratorService audioGeneratorService;
     private final SuggestionOpenIa suggestionOpenIa;
-    public ProductSuggestionImpl(LuxeneProductServiceImpl luxeneProductService,  AudioStorage audioStorage, AudioGeneratorService audioGeneratorService, SuggestionOpenIa suggestionOpenIa) {
+
+    private final ClientProblemRepository clientProblemRepository;
+
+    public ProductSuggestionImpl(LuxeneProductServiceImpl luxeneProductService, AudioStorage audioStorage, AudioGeneratorService audioGeneratorService, SuggestionOpenIa suggestionOpenIa, ClientProblemRepository clientProblemRepository) {
         this.luxeneProductService = luxeneProductService;
         this.audioStorage = audioStorage;
         this.audioGeneratorService = audioGeneratorService;
         this.suggestionOpenIa = suggestionOpenIa;
+        this.clientProblemRepository = clientProblemRepository;
     }
 
     @Override
     public SuggestionClientResponseDto getBestProductIdsAndSuggestion(SuggestionClientRequestDto request) {
 
         SuggestionFromOpenIAResponseDto suggestion = suggestionOpenIa.getSuggestion(request);
+
+        clientProblemRepository.save(new ClientProblem(null, request.getMessage(), request.getClientAge(),request.getClientGender(),
+                suggestion.getClientSuggestionComponents(), suggestion.getClientSuggestionRoutine(), suggestion.getMainBrand()));
 
         List<Integer> productIds = luxeneProductService.searchBestProductsAcordingToSuggestion(request.getMessage(),suggestion);
 

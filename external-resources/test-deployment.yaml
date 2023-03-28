@@ -28,7 +28,48 @@ spec:
           limits:
             memory: "512Mi"
           requests:
-            memory: "256Mi"       
+            memory: "256Mi"
+        env:
+          - name: AWS_POLLY_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: aws-polly-access-key
+          - name: AWS_POLLY_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: aws-polly-secret-key
+          - name: AZURE_STORAGE_CONTAINER_NAME
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: azure-storage-container-name
+          - name: AZURE_STORAGE_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: azure-storage-connection-string
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: db-password 
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: db-username
+          - name: DB_URL_CONNECTION
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: db-url-connection 
+          - name: OPENIA_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: openai-api-key                                        
         ports:
         - containerPort: 8095         
       imagePullSecrets:

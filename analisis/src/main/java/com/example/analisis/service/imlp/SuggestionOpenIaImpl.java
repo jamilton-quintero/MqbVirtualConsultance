@@ -3,10 +3,7 @@ package com.example.analisis.service.imlp;
 import com.example.analisis.domain.entity.ChatGptResponse;
 import com.example.analisis.domain.entity.dto.SuggestionClientRequestDto;
 import com.example.analisis.domain.entity.dto.SuggestionFromOpenIAResponseDto;
-import com.example.analisis.service.AudioGeneratorService;
-import com.example.analisis.service.AudioStorage;
 import com.example.analisis.service.BotService;
-import com.example.analisis.service.LuxeneProductService;
 import com.example.analisis.service.SuggestionOpenIa;
 import org.springframework.stereotype.Component;
 
@@ -16,7 +13,7 @@ import java.util.concurrent.CompletableFuture;
 public class SuggestionOpenIaImpl implements SuggestionOpenIa {
 
     public static final String PREFIX_MESSAGE = "(Generar Recomendacion enfocada en productos de belleza y cuidado personal sin mencionar marcas especificas.Esta recomendacion debe estar dada para para una %s de %s años, la recomendacion debe ser muy optimizada y detallada para mejorar la situacion mencioanda)";
-    public static final String BASE_PROMPT_MAIN_BRAND = "De estas opciones A=Cuidado capilar,B=Cuidado corporal, C=Cuidado facial. P:Tengo mucha caspa y el cabello muy grasoso :A, P:Tengo muchos granos en la cara :C, P:Tengo muchos granos en la espalda :B, P:%s:";
+    public static final String BASE_PROMPT_MAIN_BRAND = "De estas opciones donde solo es posible una respuesta, A=Cuidado capilar,B=Cuidado corporal, C=Cuidado facial. P:Tengo mucha caspa y el cabello muy grasoso :A, P:Tengo muchos granos en la cara :C, P:Tengo muchos granos en la espalda :B, P:Tengo muchos granos en la cabeza :A, P:Se me cae mucho el pelo :A, P:%s:";
     public static final String BASE_PROMPT_SUGGESTION_COMPONENTS = "Como experta en %s, ¿podrías recomendarme algunos productos y componentes naturales o químicos que sean efectivos para tratar el siguiente problema: %s de %s de %s años? Preferiblemente, evitando mencionar marcas específicas pero proporcionando información detallada sobre los ingredientes activos que son beneficiosos para tratar este problema.";
     public static final String BASE_PROMPT_SUGGESTION_ROUTINE = "Como experta en %s, ¿podrías recomendarme tips o una rutina diaria, semanal o mensual de %s para tratar el siguiente problema: %s de %s de %s años? Por favor, proporciona información detallada del paso a paso a seguir para mejorar esta situación, evitando mencionar productos y marcas específicas.";
 
