@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: analisis-ingress
+  namespace: mqb-virtual-consultance-prb
+  labels:
+    app: analisis
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  tls:
+  - hosts:
+    - barberiaadn.xyz
+    secretName: test-tls
+  rules:
+    - host: barberiaadn.xyz
+      http:
+        paths:
+        - path: /virtual-consultive(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: analisis
+              port:
+                number: 8095

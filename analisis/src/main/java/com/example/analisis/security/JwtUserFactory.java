@@ -1,8 +1,8 @@
 package com.example.analisis.security;
 
-import com.example.analisis.entidad.Authority;
-import com.example.analisis.entidad.User;
-import com.example.analisis.enums.EState;
+import com.example.analisis.domain.entity.Authority;
+import com.example.analisis.domain.entity.User;
+import com.example.analisis.domain.enums.EState;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

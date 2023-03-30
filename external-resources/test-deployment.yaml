@@ -22,33 +22,101 @@ spec:
     spec:     
       containers:
       - name : analisis
-        image: acrmqbtest.azurecr.io/mqbconsultiveanalisisprb:latest
+        image: acrmvirtualconsultive.azurecr.io/mqbconsultiveanalisisprb:latest
         imagePullPolicy: Always
         resources:
           limits:
             memory: "512Mi"
           requests:
-            memory: "256Mi"       
+            memory: "256Mi"
+        env:
+          - name: AWS_POLLY_ACCESS_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: aws-polly-access-key
+          - name: AWS_POLLY_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: aws-polly-secret-key
+          - name: AZURE_STORAGE_CONTAINER_NAME
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: azure-storage-container-name
+          - name: AZURE_STORAGE_CONNECTION_STRING
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: azure-storage-connection-string
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: db-password 
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: db-username
+          - name: DB_URL_CONNECTION
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: db-url-connection 
+          - name: OPENIA_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: secrets-mqb
+                key: openai-api-key                                        
         ports:
-        - containerPort: 8095
-          protocol: TCP 
-        - containerPort: 21
-          protocol: TCP              
+        - containerPort: 8095         
       imagePullSecrets:
-        - name: acrmqbtest  
+        - name: acrmvirtualconsultive  
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: analisis-load
+  name: analisis
   namespace: mqb-virtual-consultance-prb
   labels:
     app: analisis
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   ports:
   - name: http
     port: 80
     targetPort: 8095
   selector:
     app: analisis
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: analisis-ingress
+  namespace: mqb-virtual-consultance-prb
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/add-response-header: "Access-Control-Allow-Origin: https://masquebella.com.co"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "POST"
+    cert-manager.io/cluster-issuer: letsencrypt-prod 
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  tls:
+  - hosts:
+    - masquebellabackend.barberiaadn.xyz
+    secretName: test-tls
+  rules:
+    - host: masquebellabackend.barberiaadn.xyz
+      http:
+        paths:
+        - path: /virtual-consultive(/|$)(.*)
+          pathType: Prefix
+          backend:
+            service:
+              name: analisis
+              port:
+                number: 8095
