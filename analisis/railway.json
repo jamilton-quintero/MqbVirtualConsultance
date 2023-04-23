@@ -3,11 +3,15 @@
   "stages": [
     {
       "name": "Build",
-      "builder": "DockerFile",
       "commands": [
         "chmod +x gradlew",
         "./gradlew build -x check"
       ]
+    },
+    {
+      "name": "Docker",
+      "builder": "DockerFile",
+      "commands": []
     }
   ],
   "dockerfile": {
