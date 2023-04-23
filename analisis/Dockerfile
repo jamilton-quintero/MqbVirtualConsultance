@@ -1,3 +1,8 @@
+FROM gradle:7.3.0-jdk8 AS build
+WORKDIR /app
+COPY . /app
+RUN gradle build
+
 FROM openjdk:8-jre-slim-buster
 EXPOSE 8095
 RUN mkdir -p /app/
