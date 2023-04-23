@@ -1,7 +1,18 @@
 {
   "$schema": "https://railway.app/railway.schema.json",
-  "build": {
-    "builder": "DockerFile"
+  "stages": [
+    {
+      "name": "Build",
+      "builder": "DockerFile",
+      "commands": [
+        "chmod +x gradlew",
+        "./gradlew build -x check"
+      ]
+    }
+  ],
+  "dockerfile": {
+    "name": "Deploy",
+    "path": "Dockerfile"
   },
   "deploy": {
     "restartPolicyType": "ON_FAILURE",
