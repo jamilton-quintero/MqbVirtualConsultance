@@ -14,7 +14,7 @@ RUN gradle clean build
 FROM openjdk:8-jre-slim-buster
 
 # Exponer el puerto que utilizará la aplicación
-EXPOSE 8095
+EXPOSE 80
 
 # Crear el directorio /app/ e incluir los índices de Lucene
 RUN mkdir -p /app/
