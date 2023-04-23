@@ -2,6 +2,13 @@
   "$schema": "https://railway.app/railway.schema.json",
   "stages": [
     {
+      "name": "Setup",
+      "commands": [
+        "nix-env -iA nixpkgs.openjdk8",
+        "nix-env -iA nixpkgs.gradle"
+      ]
+    },
+    {
       "name": "Build",
       "commands": [
         "chmod +x gradlew",
@@ -9,17 +16,10 @@
       ]
     },
     {
-      "name": "Docker",
-      "builder": "DockerFile",
-      "commands": []
+      "name": "Start",
+      "commands": [
+        "java $JAVA_OPTS -jar -Dserver.port=$PORT build/libs/*.jar"
+      ]
     }
-  ],
-  "dockerfile": {
-    "name": "Deploy",
-    "path": "Dockerfile"
-  },
-  "deploy": {
-    "restartPolicyType": "ON_FAILURE",
-    "restartPolicyMaxRetries": 10
-  }
+  ]
 }
